@@ -1,0 +1,190 @@
+2026-03-26 23:10:18 [INFO] ============================================================
+2026-03-26 23:10:18 [INFO] CED-Mini 音频单模态猫狗情绪识别 正式训练
+2026-03-26 23:10:18 [INFO] ============================================================
+2026-03-26 23:10:18 [INFO] Python: 3.9.20 (main, Oct  3 2024, 07:38:01) [MSC v.1929 64 bit (AMD64)]
+2026-03-26 23:10:18 [INFO] PyTorch: 2.5.1
+2026-03-26 23:10:18 [INFO] NumPy: 1.26.4
+2026-03-26 23:10:18 [INFO] OS: Windows-10-10.0.26100-SP0
+2026-03-26 23:10:18 [INFO] CUDA: 12.4
+2026-03-26 23:10:18 [INFO] GPU: NVIDIA GeForce RTX 4060 Laptop GPU
+2026-03-26 23:10:18 [INFO] GPU 显存: 8.0 GB
+2026-03-26 23:10:18 [INFO] 计算设备: cuda
+2026-03-26 23:10:18 [INFO] 超参数: epochs=60, batch=32, backbone_lr=2e-05, head_lr=0.0005, patience=10, mixup_alpha=0.3, focal_gamma=2.0, dog_audio_mel_noise_std=0.02, species_loss_weight=0.3, spec_augment=True, use_ema=True, ema_decay=0.999, tta_steps=10, use_amp=True
+2026-03-26 23:10:18 [INFO] 数据策略: 逆频采样器 + Focal(无 class weight) + 任务等权；勿与旧版逆频 loss 混用。
+2026-03-26 23:10:18 [INFO] ============================================================
+2026-03-26 23:10:18 [INFO] 
+[1/5] 加载音频数据集...
+2026-03-26 23:10:18 [INFO]   加载 dog_audio: 1200 条音频, 4 类
+2026-03-26 23:10:19 [INFO]   加载 cat_audio: 2961 条音频, 10 类
+2026-03-26 23:10:19 [INFO]   数据集合并完毕: 共 4161 条样本
+2026-03-26 23:10:19 [INFO] 
+[2/5] 分层采样划分数据集...
+2026-03-26 23:10:19 [INFO]   训练集=3327, 验证集=417, 测试集=417
+2026-03-26 23:10:19 [INFO]   训练模式: 固定分层划分（无 K 折交叉验证）
+2026-03-26 23:10:19 [INFO] 
+[3/5] 开始训练...
+2026-03-26 23:10:24 [INFO] CED-Mini 编码器加载完毕, embed_dim=256
+2026-03-26 23:10:24 [INFO] CED-Mini 骨干初始化: 骨干全冻 (仅 LN/BN 可训), 可训参数 640/9,560,704 (0.0%)
+2026-03-26 23:10:24 [INFO]   [折1] 损失: 物种 Focal ×0.3 + 情绪任务等权 1.0；狗音频 Mel 噪声 std=0.02；SpecAugment=开；EMA=decay=0.999；渐进解冻调度={1: 'head_only', 6: 'top2', 16: 'top4'}
+2026-03-26 23:10:24 [INFO]   [解冻] 策略=head_only, 骨干可训 640/9,560,704 (0.0%)
+2026-03-26 23:10:57 [INFO] [折1] Epoch [  1/60] 训练: loss=1.4222 | 验证: loss=2.2423 balanced_macro_F1=18.61% | 物种acc=76.3% (GT路由) | dog_audio:F1宏=23.9% | cat_audio:F1宏=13.4% | lr=5.00e-04 | 33.2s
+2026-03-26 23:10:57 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=18.61%，EMA参数)
+2026-03-26 23:11:08 [INFO] [折1] Epoch [  2/60] 训练: loss=0.8292 | 验证: loss=1.6070 balanced_macro_F1=52.82% | 物种acc=92.8% (GT路由) | dog_audio:F1宏=73.6% | cat_audio:F1宏=32.0% | lr=2.00e-04 | 10.7s
+2026-03-26 23:11:08 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=52.82%，EMA参数)
+2026-03-26 23:11:19 [INFO] [折1] Epoch [  3/60] 训练: loss=0.7813 | 验证: loss=1.0742 balanced_macro_F1=77.13% | 物种acc=97.8% (GT路由) | dog_audio:F1宏=90.9% | cat_audio:F1宏=63.4% | lr=3.00e-04 | 11.0s
+2026-03-26 23:11:19 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=77.13%，EMA参数)
+2026-03-26 23:11:30 [INFO] [折1] Epoch [  4/60] 训练: loss=0.7924 | 验证: loss=0.6952 balanced_macro_F1=85.68% | 物种acc=98.6% (GT路由) | dog_audio:F1宏=93.3% | cat_audio:F1宏=78.0% | lr=4.00e-04 | 11.0s
+2026-03-26 23:11:30 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=85.68%，EMA参数)
+2026-03-26 23:11:41 [INFO] [折1] Epoch [  5/60] 训练: loss=0.7672 | 验证: loss=0.4625 balanced_macro_F1=88.16% | 物种acc=98.8% (GT路由) | dog_audio:F1宏=94.1% | cat_audio:F1宏=82.2% | lr=5.00e-04 | 11.1s
+2026-03-26 23:11:41 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=88.16%，EMA参数)
+2026-03-26 23:11:41 [INFO]   [解冻] 策略=top2, 骨干可训 1,580,160/9,560,704 (16.5%)
+2026-03-26 23:11:52 [INFO] [折1] Epoch [  6/60] 训练: loss=0.7360 | 验证: loss=0.3303 balanced_macro_F1=91.11% | 物种acc=98.8% (GT路由) | dog_audio:F1宏=95.0% | cat_audio:F1宏=87.2% | lr=5.00e-04 | 11.3s
+2026-03-26 23:11:52 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=91.11%，EMA参数)
+2026-03-26 23:12:04 [INFO] [折1] Epoch [  7/60] 训练: loss=0.7416 | 验证: loss=0.2571 balanced_macro_F1=90.73% | 物种acc=98.8% (GT路由) | dog_audio:F1宏=95.0% | cat_audio:F1宏=86.4% | lr=5.00e-04 | 11.6s
+2026-03-26 23:12:16 [INFO] [折1] Epoch [  8/60] 训练: loss=0.6575 | 验证: loss=0.2155 balanced_macro_F1=91.00% | 物种acc=99.0% (GT路由) | dog_audio:F1宏=95.9% | cat_audio:F1宏=86.1% | lr=5.00e-04 | 12.2s
+2026-03-26 23:12:28 [INFO] [折1] Epoch [  9/60] 训练: loss=0.7051 | 验证: loss=0.1911 balanced_macro_F1=91.74% | 物种acc=99.5% (GT路由) | dog_audio:F1宏=96.7% | cat_audio:F1宏=86.8% | lr=5.00e-04 | 12.0s
+2026-03-26 23:12:28 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=91.74%，EMA参数)
+2026-03-26 23:12:43 [INFO] [折1] Epoch [ 10/60] 训练: loss=0.6438 | 验证: loss=0.1763 balanced_macro_F1=92.25% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=96.7% | cat_audio:F1宏=87.8% | lr=5.00e-04 | 14.3s
+2026-03-26 23:12:43 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=92.25%，EMA参数)
+2026-03-26 23:12:54 [INFO] [折1] Epoch [ 11/60] 训练: loss=0.6739 | 验证: loss=0.1669 balanced_macro_F1=93.23% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=89.0% | lr=5.00e-04 | 11.6s
+2026-03-26 23:12:54 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=93.23%，EMA参数)
+2026-03-26 23:13:06 [INFO] [折1] Epoch [ 12/60] 训练: loss=0.6187 | 验证: loss=0.1601 balanced_macro_F1=93.23% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=89.0% | lr=5.00e-04 | 11.6s
+2026-03-26 23:13:17 [INFO] [折1] Epoch [ 13/60] 训练: loss=0.5298 | 验证: loss=0.1537 balanced_macro_F1=93.43% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=89.4% | lr=5.00e-04 | 11.4s
+2026-03-26 23:13:17 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=93.43%，EMA参数)
+2026-03-26 23:13:29 [INFO] [折1] Epoch [ 14/60] 训练: loss=0.6484 | 验证: loss=0.1491 balanced_macro_F1=93.58% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=89.7% | lr=5.00e-04 | 11.8s
+2026-03-26 23:13:29 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=93.58%，EMA参数)
+2026-03-26 23:13:40 [INFO] [折1] Epoch [ 15/60] 训练: loss=0.6339 | 验证: loss=0.1462 balanced_macro_F1=93.75% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=90.0% | lr=5.00e-04 | 11.2s
+2026-03-26 23:13:40 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=93.75%，EMA参数)
+2026-03-26 23:13:40 [INFO]   [解冻] 策略=top4, 骨干可训 3,159,680/9,560,704 (33.0%)
+2026-03-26 23:13:52 [INFO] [折1] Epoch [ 16/60] 训练: loss=0.5608 | 验证: loss=0.1429 balanced_macro_F1=93.92% | 物种acc=99.8% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=90.3% | lr=5.00e-04 | 11.4s
+2026-03-26 23:13:52 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=93.92%，EMA参数)
+2026-03-26 23:14:03 [INFO] [折1] Epoch [ 17/60] 训练: loss=0.5580 | 验证: loss=0.1402 balanced_macro_F1=93.90% | 物种acc=99.8% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=90.3% | lr=5.00e-04 | 11.9s
+2026-03-26 23:14:16 [INFO] [折1] Epoch [ 18/60] 训练: loss=0.5614 | 验证: loss=0.1390 balanced_macro_F1=94.68% | 物种acc=99.8% (GT路由) | dog_audio:F1宏=98.3% | cat_audio:F1宏=91.0% | lr=5.00e-04 | 12.2s
+2026-03-26 23:14:16 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=94.68%，EMA参数)
+2026-03-26 23:14:27 [INFO] [折1] Epoch [ 19/60] 训练: loss=0.5938 | 验证: loss=0.1380 balanced_macro_F1=94.55% | 物种acc=99.8% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=91.6% | lr=5.00e-04 | 11.4s
+2026-03-26 23:14:39 [INFO] [折1] Epoch [ 20/60] 训练: loss=0.6279 | 验证: loss=0.1372 balanced_macro_F1=94.74% | 物种acc=99.8% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=92.0% | lr=5.00e-04 | 11.6s
+2026-03-26 23:14:39 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=94.74%，EMA参数)
+2026-03-26 23:14:51 [INFO] [折1] Epoch [ 21/60] 训练: loss=0.5508 | 验证: loss=0.1364 balanced_macro_F1=94.41% | 物种acc=99.8% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=91.3% | lr=5.00e-04 | 11.9s
+2026-03-26 23:15:02 [INFO] [折1] Epoch [ 22/60] 训练: loss=0.5560 | 验证: loss=0.1358 balanced_macro_F1=94.07% | 物种acc=99.8% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=90.6% | lr=5.00e-04 | 11.7s
+2026-03-26 23:15:14 [INFO] [折1] Epoch [ 23/60] 训练: loss=0.5047 | 验证: loss=0.1355 balanced_macro_F1=93.92% | 物种acc=99.8% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=90.3% | lr=5.00e-04 | 11.7s
+2026-03-26 23:15:26 [INFO] [折1] Epoch [ 24/60] 训练: loss=0.5354 | 验证: loss=0.1346 balanced_macro_F1=93.92% | 物种acc=99.8% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=90.3% | lr=5.00e-04 | 11.9s
+2026-03-26 23:15:38 [INFO] [折1] Epoch [ 25/60] 训练: loss=0.5649 | 验证: loss=0.1340 balanced_macro_F1=94.11% | 物种acc=99.8% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=90.7% | lr=5.00e-04 | 12.4s
+2026-03-26 23:15:50 [INFO] [折1] Epoch [ 26/60] 训练: loss=0.5204 | 验证: loss=0.1323 balanced_macro_F1=94.45% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=91.4% | lr=5.00e-04 | 11.5s
+2026-03-26 23:16:01 [INFO] [折1] Epoch [ 27/60] 训练: loss=0.4933 | 验证: loss=0.1305 balanced_macro_F1=94.46% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=91.4% | lr=5.00e-04 | 11.5s
+2026-03-26 23:16:13 [INFO] [折1] Epoch [ 28/60] 训练: loss=0.5602 | 验证: loss=0.1298 balanced_macro_F1=94.78% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=92.1% | lr=5.00e-04 | 11.7s
+2026-03-26 23:16:13 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=94.78%，EMA参数)
+2026-03-26 23:16:25 [INFO] [折1] Epoch [ 29/60] 训练: loss=0.4807 | 验证: loss=0.1286 balanced_macro_F1=94.94% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=92.4% | lr=5.00e-04 | 11.7s
+2026-03-26 23:16:25 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=94.94%，EMA参数)
+2026-03-26 23:16:37 [INFO] [折1] Epoch [ 30/60] 训练: loss=0.5110 | 验证: loss=0.1276 balanced_macro_F1=94.94% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=92.4% | lr=5.00e-04 | 12.1s
+2026-03-26 23:16:48 [INFO] [折1] Epoch [ 31/60] 训练: loss=0.5433 | 验证: loss=0.1283 balanced_macro_F1=95.11% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=92.7% | lr=5.00e-04 | 11.6s
+2026-03-26 23:16:48 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=95.11%，EMA参数)
+2026-03-26 23:17:00 [INFO] [折1] Epoch [ 32/60] 训练: loss=0.4664 | 验证: loss=0.1268 balanced_macro_F1=94.94% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=92.4% | lr=5.00e-04 | 11.5s
+2026-03-26 23:17:11 [INFO] [折1] Epoch [ 33/60] 训练: loss=0.6288 | 验证: loss=0.1268 balanced_macro_F1=95.85% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=98.3% | cat_audio:F1宏=93.4% | lr=5.00e-04 | 11.5s
+2026-03-26 23:17:11 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=95.85%，EMA参数)
+2026-03-26 23:17:23 [INFO] [折1] Epoch [ 34/60] 训练: loss=0.4877 | 验证: loss=0.1274 balanced_macro_F1=96.01% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=98.3% | cat_audio:F1宏=93.7% | lr=5.00e-04 | 12.0s
+2026-03-26 23:17:23 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=96.01%，EMA参数)
+2026-03-26 23:17:35 [INFO] [折1] Epoch [ 35/60] 训练: loss=0.4723 | 验证: loss=0.1271 balanced_macro_F1=95.84% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=98.3% | cat_audio:F1宏=93.3% | lr=5.00e-04 | 11.9s
+2026-03-26 23:17:47 [INFO] [折1] Epoch [ 36/60] 训练: loss=0.4809 | 验证: loss=0.1269 balanced_macro_F1=95.85% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=98.3% | cat_audio:F1宏=93.4% | lr=5.00e-04 | 11.5s
+2026-03-26 23:17:58 [INFO] [折1] Epoch [ 37/60] 训练: loss=0.5023 | 验证: loss=0.1278 balanced_macro_F1=95.85% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=98.3% | cat_audio:F1宏=93.4% | lr=5.00e-04 | 11.2s
+2026-03-26 23:18:15 [INFO] [折1] Epoch [ 38/60] 训练: loss=0.5255 | 验证: loss=0.1280 balanced_macro_F1=95.85% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=98.3% | cat_audio:F1宏=93.4% | lr=5.00e-04 | 17.3s
+2026-03-26 23:18:27 [INFO] [折1] Epoch [ 39/60] 训练: loss=0.5183 | 验证: loss=0.1281 balanced_macro_F1=95.85% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=98.3% | cat_audio:F1宏=93.4% | lr=5.00e-04 | 11.4s
+2026-03-26 23:18:38 [INFO] [折1] Epoch [ 40/60] 训练: loss=0.5282 | 验证: loss=0.1293 balanced_macro_F1=95.85% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=98.3% | cat_audio:F1宏=93.4% | lr=5.00e-04 | 11.2s
+2026-03-26 23:18:49 [INFO] [折1] Epoch [ 41/60] 训练: loss=0.5782 | 验证: loss=0.1304 balanced_macro_F1=95.87% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=98.3% | cat_audio:F1宏=93.4% | lr=5.00e-04 | 11.2s
+2026-03-26 23:19:00 [INFO] [折1] Epoch [ 42/60] 训练: loss=0.4952 | 验证: loss=0.1326 balanced_macro_F1=95.76% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=94.0% | lr=5.00e-04 | 11.3s
+2026-03-26 23:19:12 [INFO] [折1] Epoch [ 43/60] 训练: loss=0.5321 | 验证: loss=0.1331 balanced_macro_F1=95.61% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=93.7% | lr=5.00e-04 | 11.4s
+2026-03-26 23:19:23 [INFO] [折1] Epoch [ 44/60] 训练: loss=0.4685 | 验证: loss=0.1327 balanced_macro_F1=95.61% | 物种acc=100.0% (GT路由) | dog_audio:F1宏=97.5% | cat_audio:F1宏=93.7% | lr=5.00e-04 | 11.4s
+2026-03-26 23:19:23 [INFO]   早停触发: 验证 balanced_macro_F1 连续 10 轮未改善
+2026-03-26 23:19:23 [INFO] [折1] 训练完成: 44 轮, 最优 balanced_macro_F1=96.01%, 用时 9.0 分钟
+2026-03-26 23:19:23 [INFO] 
+[4/5] 绘制训练曲线...
+2026-03-26 23:19:24 [INFO]   训练曲线已保存: D:\bcode\photo emotion\figure\ced_train_curve_20260326231018.png
+2026-03-26 23:19:24 [INFO] 
+[4b] 最优权重 — 测试集单次评估（无 TTA）...
+2026-03-26 23:19:26 [INFO] CED-Mini 编码器加载完毕, embed_dim=256
+2026-03-26 23:19:26 [INFO] CED-Mini 骨干初始化: 骨干全冻 (仅 LN/BN 可训), 可训参数 640/9,560,704 (0.0%)
+2026-03-26 23:19:38 [INFO] 
+=======================================================
+物种(狗/猫) 端到端准确率 (species=None 硬路由): 99.76%
+-------------------------------------------------------
+
+=======================================================
+任务: dog_audio  (Accuracy=99.17%)
+-------------------------------------------------------
+            类别  Precision     Recall         F1     支持数
+       barking    100.00%    100.00%    100.00%      30
+      growling    100.00%    100.00%    100.00%      30
+       howling    100.00%     96.67%     98.31%      30
+       whining     96.77%    100.00%     98.36%      30
+-------------------------------------------------------
+     Macro Avg     99.19%     99.17%     99.17%
+   Weighted F1                           99.17%
+
+=======================================================
+任务: cat_audio  (Accuracy=91.58%)
+-------------------------------------------------------
+            类别  Precision     Recall         F1     支持数
+         Angry     87.50%     93.33%     90.32%      30
+       Defence    100.00%    100.00%    100.00%      29
+      Fighting     96.30%     86.67%     91.23%      30
+         Happy     84.00%     70.00%     76.36%      30
+   HuntingMind    100.00%    100.00%    100.00%      29
+        Mating     87.50%     93.33%     90.32%      30
+    MotherCall     96.67%     96.67%     96.67%      30
+       Paining     72.73%     82.76%     77.42%      29
+       Resting    100.00%    100.00%    100.00%      30
+       Warning     93.33%     93.33%     93.33%      30
+-------------------------------------------------------
+     Macro Avg     91.80%     91.61%     91.57%
+   Weighted F1                           91.56%
+2026-03-26 23:19:38 [INFO] 
+[5/5] 测试集评估（TTA 10 步，单模型平均多视角）...
+2026-03-26 23:19:39 [INFO] CED-Mini 编码器加载完毕, embed_dim=256
+2026-03-26 23:19:39 [INFO] CED-Mini 骨干初始化: 骨干全冻 (仅 LN/BN 可训), 可训参数 640/9,560,704 (0.0%)
+2026-03-26 23:19:43 [INFO]   折 1/1 TTA 推理完成
+2026-03-26 23:19:43 [INFO] 
+=======================================================
+[集成] 任务: dog_audio  (Accuracy=99.17%)
+-------------------------------------------------------
+            类别  Precision     Recall         F1     支持数
+       barking    100.00%    100.00%    100.00%      30
+      growling    100.00%    100.00%    100.00%      30
+       howling    100.00%     96.67%     98.31%      30
+       whining     96.77%    100.00%     98.36%      30
+-------------------------------------------------------
+  Macro F1: 99.17%  |  Weighted F1: 99.17%
+
+=======================================================
+[集成] 任务: cat_audio  (Accuracy=91.92%)
+-------------------------------------------------------
+            类别  Precision     Recall         F1     支持数
+         Angry     90.32%     93.33%     91.80%      30
+       Defence    100.00%    100.00%    100.00%      29
+      Fighting     96.30%     86.67%     91.23%      30
+         Happy     84.62%     73.33%     78.57%      30
+   HuntingMind    100.00%    100.00%    100.00%      29
+        Mating     87.50%     93.33%     90.32%      30
+    MotherCall     96.67%     96.67%     96.67%      30
+       Paining     72.73%     82.76%     77.42%      29
+       Resting    100.00%    100.00%    100.00%      30
+       Warning     93.33%     93.33%     93.33%      30
+-------------------------------------------------------
+  Macro F1: 91.93%  |  Weighted F1: 91.93%
+2026-03-26 23:19:44 [INFO]   混淆矩阵已保存: D:\bcode\photo emotion\figure\ced_confusion_matrix_20260326231018.png
+2026-03-26 23:19:45 [INFO] 已保存各类别 P/R/F1 柱状图：D:\bcode\photo emotion\figure\ced_interpret_prf_20260326231018.png
+2026-03-26 23:19:46 [INFO] 已保存微平均 ROC 曲线：D:\bcode\photo emotion\figure\ced_interpret_roc_20260326231018.png
+2026-03-26 23:19:47 [INFO] 已保存置信度分布图：D:\bcode\photo emotion\figure\ced_interpret_confidence_20260326231018.png
+2026-03-26 23:19:48 [INFO] 已保存 Top 混淆对条形图：D:\bcode\photo emotion\figure\ced_interpret_top_confusion_20260326231018.png
+2026-03-26 23:19:48 [INFO] CED-Mini 编码器加载完毕, embed_dim=256
+2026-03-26 23:19:48 [INFO] CED-Mini 骨干初始化: 骨干全冻 (仅 LN/BN 可训), 可训参数 640/9,560,704 (0.0%)
+2026-03-26 23:20:02 [INFO] 已保存 t-SNE 表征图：D:\bcode\photo emotion\figure\ced_tsne_20260326231018.png
+2026-03-26 23:20:04 [INFO] CED-Mini 编码器加载完毕, embed_dim=256
+2026-03-26 23:20:04 [INFO] CED-Mini 骨干初始化: 骨干全冻 (仅 LN/BN 可训), 可训参数 640/9,560,704 (0.0%)
+2026-03-26 23:20:08 [INFO] 已保存 Mel GradCAM 可视化图（dog_audio）：D:\bcode\photo emotion\figure\ced_mel_gradcam_20260326231018_dog.png
+2026-03-26 23:20:11 [INFO] 已保存 Mel GradCAM 可视化图（cat_audio）：D:\bcode\photo emotion\figure\ced_mel_gradcam_20260326231018_cat.png
+2026-03-26 23:20:11 [INFO]   可解释性组图（P/R/F1、ROC、置信度、Top 混淆）、t-SNE 与 Mel GradCAM 已写入 figure/
+2026-03-26 23:20:11 [INFO]   模型已保存 (单份最优权重): D:\bcode\photo emotion\moxing\CedMini_AudioEmotion_20260326231018.pkl
+2026-03-26 23:20:11 [INFO] 
+============================================================
+2026-03-26 23:20:11 [INFO] 训练日志: D:\bcode\photo emotion\txt\ced_train_log_20260326231018.txt
+2026-03-26 23:20:11 [INFO] 模型文件: D:\bcode\photo emotion\moxing\CedMini_AudioEmotion_20260326231018.pkl
+2026-03-26 23:20:11 [INFO] ============================================================

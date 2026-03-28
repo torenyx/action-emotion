@@ -1,0 +1,41 @@
+# 生成的报告与中间产物（整目录不入库）
+output/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+.env
+.env.*
+
+# 模型权重与常见推理导出
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.h5
+*.pb
+*.tflite
+*.mlmodel
+*.joblib
+*.pkl
+**/pytorch_model.bin
+**/model*.bin
+
+# 训练导出的整包目录（若仅有权重可整目录忽略）
+model/
+
+# Hugging Face 本地缓存
+**/.cache/huggingface/
+
+# 预训练权重目录（如需保留配置可再单独 ! 放行小文件）
+cedmini and DINOv3/dinov3-convnext-tiny-pretrain-lvd1689m/
+
+# 数据集：只跟踪 data 下各层目录与 .gitkeep，不跟踪真实媒体与标注等文件
+data/**/*
+!data/**/
+!data/**/.gitkeep

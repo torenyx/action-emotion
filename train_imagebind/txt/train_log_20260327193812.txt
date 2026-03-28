@@ -1,0 +1,156 @@
+2026-03-27 19:38:12 [INFO] ============================================================
+2026-03-27 19:38:12 [INFO] 大创项目 多分支路由 MLP 正式训练（学术级）
+2026-03-27 19:38:12 [INFO] ============================================================
+2026-03-27 19:38:12 [INFO] Python: 3.9.20 (main, Oct  3 2024, 07:38:01) [MSC v.1929 64 bit (AMD64)]
+2026-03-27 19:38:12 [INFO] PyTorch: 2.5.1
+2026-03-27 19:38:12 [INFO] NumPy: 1.26.4
+2026-03-27 19:38:12 [INFO] OS: Windows-10-10.0.26100-SP0
+2026-03-27 19:38:12 [INFO] CUDA: 12.4
+2026-03-27 19:38:12 [INFO] GPU: NVIDIA GeForce RTX 4060 Laptop GPU
+2026-03-27 19:38:12 [INFO] GPU 显存: 8.0 GB
+2026-03-27 19:38:12 [INFO] 计算设备：cuda
+2026-03-27 19:38:12 [INFO] 超参数：epochs=120, batch=256, lr=0.0005, hidden=512, patience=20, mixup_alpha=0.3, focal_gamma=2.0, noise_std=0.05, 少数侧噪声×1.5, n_folds=1, tta_steps=10
+2026-03-27 19:38:12 [INFO] 早停与最优权重：验证集 balanced_macro_F1 = 四任务 macro-F1 算术平均（与 dinov3 一致思路）
+2026-03-27 19:38:12 [INFO] 数据策略：仅逆频采样器 + Focal（无 class weight）+ 任务等权；特征噪声强化「猫图 / 狗音频」少数侧（与数据分布一致）
+2026-03-27 19:38:12 [INFO] ============================================================
+2026-03-27 19:38:12 [INFO] 
+[1/5] 加载特征数据...
+2026-03-27 19:38:12 [INFO]   加载 dog_img: 3938 条，4 类
+2026-03-27 19:38:12 [INFO]   加载 cat_img: 667 条，7 类
+2026-03-27 19:38:12 [INFO]   加载 dog_audio: 1200 条，4 类
+2026-03-27 19:38:12 [INFO]   加载 cat_audio: 2961 条，10 类
+2026-03-27 19:38:12 [INFO]   数据集合并完毕：共 8766 条样本
+2026-03-27 19:38:12 [INFO] 
+[2/5] 分层采样划分数据集...
+2026-03-27 19:38:12 [INFO]   测试集=877 固定，训练+验证池=7889
+2026-03-27 19:38:12 [INFO]   训练模式：单次训练
+2026-03-27 19:38:12 [INFO] 
+[3/5] 开始训练...
+2026-03-27 19:38:12 [INFO]   [折1] 任务损失权重（等权）: dog_img=1.0, cat_img=1.0, dog_audio=1.0, cat_audio=1.0
+2026-03-27 19:38:15 [INFO] [折1] Epoch [  1/120] 训练: loss=4.6454 | 验证: loss=3.1769 balanced_macro_F1=63.39% | dog_img:宏F1=49.6% | cat_img:宏F1=60.0% | dog_audio:宏F1=90.6% | cat_audio:宏F1=53.4% | lr=1.00e-04 | 0.9s
+2026-03-27 19:38:15 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=63.39%)
+2026-03-27 19:38:15 [INFO] [折1] Epoch [  2/120] 训练: loss=3.0743 | 验证: loss=1.8476 balanced_macro_F1=75.95% | dog_img:宏F1=74.5% | cat_img:宏F1=68.4% | dog_audio:宏F1=95.0% | cat_audio:宏F1=65.9% | lr=2.00e-04 | 0.5s
+2026-03-27 19:38:15 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=75.95%)
+2026-03-27 19:38:16 [INFO] [折1] Epoch [  3/120] 训练: loss=1.8081 | 验证: loss=1.3076 balanced_macro_F1=81.66% | dog_img:宏F1=81.5% | cat_img:宏F1=75.0% | dog_audio:宏F1=93.2% | cat_audio:宏F1=76.9% | lr=3.00e-04 | 0.5s
+2026-03-27 19:38:16 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=81.66%)
+2026-03-27 19:38:16 [INFO] [折1] Epoch [  4/120] 训练: loss=1.2838 | 验证: loss=1.2039 balanced_macro_F1=83.22% | dog_img:宏F1=82.6% | cat_img:宏F1=72.1% | dog_audio:宏F1=96.7% | cat_audio:宏F1=81.5% | lr=4.00e-04 | 0.5s
+2026-03-27 19:38:16 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=83.22%)
+2026-03-27 19:38:17 [INFO] [折1] Epoch [  5/120] 训练: loss=1.2306 | 验证: loss=1.1255 balanced_macro_F1=82.83% | dog_img:宏F1=81.1% | cat_img:宏F1=70.8% | dog_audio:宏F1=97.5% | cat_audio:宏F1=82.0% | lr=5.00e-04 | 0.4s
+2026-03-27 19:38:17 [INFO] [折1] Epoch [  6/120] 训练: loss=1.0655 | 验证: loss=1.0286 balanced_macro_F1=83.96% | dog_img:宏F1=80.9% | cat_img:宏F1=74.7% | dog_audio:宏F1=98.3% | cat_audio:宏F1=82.0% | lr=5.00e-04 | 0.4s
+2026-03-27 19:38:17 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=83.96%)
+2026-03-27 19:38:18 [INFO] [折1] Epoch [  7/120] 训练: loss=0.9963 | 验证: loss=1.0756 balanced_macro_F1=84.85% | dog_img:宏F1=78.2% | cat_img:宏F1=80.2% | dog_audio:宏F1=98.3% | cat_audio:宏F1=82.7% | lr=5.00e-04 | 0.4s
+2026-03-27 19:38:18 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=84.85%)
+2026-03-27 19:38:18 [INFO] [折1] Epoch [  8/120] 训练: loss=0.8881 | 验证: loss=1.2082 balanced_macro_F1=84.63% | dog_img:宏F1=83.1% | cat_img:宏F1=74.4% | dog_audio:宏F1=98.3% | cat_audio:宏F1=82.7% | lr=5.00e-04 | 0.5s
+2026-03-27 19:38:19 [INFO] [折1] Epoch [  9/120] 训练: loss=0.8390 | 验证: loss=1.0963 balanced_macro_F1=85.06% | dog_img:宏F1=83.5% | cat_img:宏F1=75.6% | dog_audio:宏F1=97.5% | cat_audio:宏F1=83.6% | lr=4.99e-04 | 0.4s
+2026-03-27 19:38:19 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=85.06%)
+2026-03-27 19:38:19 [INFO] [折1] Epoch [ 10/120] 训练: loss=0.8454 | 验证: loss=1.0813 balanced_macro_F1=85.58% | dog_img:宏F1=84.3% | cat_img:宏F1=72.5% | dog_audio:宏F1=98.3% | cat_audio:宏F1=87.2% | lr=4.99e-04 | 0.4s
+2026-03-27 19:38:19 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=85.58%)
+2026-03-27 19:38:19 [INFO] [折1] Epoch [ 11/120] 训练: loss=0.7848 | 验证: loss=1.0676 balanced_macro_F1=85.65% | dog_img:宏F1=79.9% | cat_img:宏F1=78.1% | dog_audio:宏F1=99.2% | cat_audio:宏F1=85.4% | lr=4.98e-04 | 0.5s
+2026-03-27 19:38:19 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=85.65%)
+2026-03-27 19:38:20 [INFO] [折1] Epoch [ 12/120] 训练: loss=0.7043 | 验证: loss=1.1366 balanced_macro_F1=84.36% | dog_img:宏F1=81.0% | cat_img:宏F1=70.8% | dog_audio:宏F1=99.2% | cat_audio:宏F1=86.5% | lr=4.97e-04 | 0.4s
+2026-03-27 19:38:20 [INFO] [折1] Epoch [ 13/120] 训练: loss=0.6684 | 验证: loss=1.1063 balanced_macro_F1=84.65% | dog_img:宏F1=84.0% | cat_img:宏F1=71.2% | dog_audio:宏F1=97.5% | cat_audio:宏F1=85.9% | lr=4.95e-04 | 0.5s
+2026-03-27 19:38:21 [INFO] [折1] Epoch [ 14/120] 训练: loss=0.7717 | 验证: loss=1.2036 balanced_macro_F1=85.15% | dog_img:宏F1=85.9% | cat_img:宏F1=71.0% | dog_audio:宏F1=98.3% | cat_audio:宏F1=85.3% | lr=4.94e-04 | 0.5s
+2026-03-27 19:38:21 [INFO] [折1] Epoch [ 15/120] 训练: loss=0.5812 | 验证: loss=1.1438 balanced_macro_F1=87.21% | dog_img:宏F1=86.2% | cat_img:宏F1=77.2% | dog_audio:宏F1=99.2% | cat_audio:宏F1=86.3% | lr=4.93e-04 | 0.4s
+2026-03-27 19:38:21 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=87.21%)
+2026-03-27 19:38:22 [INFO] [折1] Epoch [ 16/120] 训练: loss=0.7019 | 验证: loss=1.0026 balanced_macro_F1=88.08% | dog_img:宏F1=85.5% | cat_img:宏F1=79.9% | dog_audio:宏F1=98.3% | cat_audio:宏F1=88.5% | lr=4.91e-04 | 0.5s
+2026-03-27 19:38:22 [INFO]   >>> 最优权重已更新 (balanced_macro_F1=88.08%)
+2026-03-27 19:38:22 [INFO] [折1] Epoch [ 17/120] 训练: loss=0.5522 | 验证: loss=0.9830 balanced_macro_F1=86.55% | dog_img:宏F1=86.7% | cat_img:宏F1=75.3% | dog_audio:宏F1=96.6% | cat_audio:宏F1=87.5% | lr=4.89e-04 | 0.5s
+2026-03-27 19:38:23 [INFO] [折1] Epoch [ 18/120] 训练: loss=0.6741 | 验证: loss=1.0738 balanced_macro_F1=86.19% | dog_img:宏F1=85.3% | cat_img:宏F1=72.0% | dog_audio:宏F1=98.3% | cat_audio:宏F1=89.1% | lr=4.87e-04 | 0.4s
+2026-03-27 19:38:23 [INFO] [折1] Epoch [ 19/120] 训练: loss=0.6336 | 验证: loss=1.0132 balanced_macro_F1=85.13% | dog_img:宏F1=88.3% | cat_img:宏F1=67.1% | dog_audio:宏F1=95.8% | cat_audio:宏F1=89.3% | lr=4.85e-04 | 0.5s
+2026-03-27 19:38:24 [INFO] [折1] Epoch [ 20/120] 训练: loss=0.5580 | 验证: loss=1.0273 balanced_macro_F1=85.79% | dog_img:宏F1=85.5% | cat_img:宏F1=69.9% | dog_audio:宏F1=98.3% | cat_audio:宏F1=89.5% | lr=4.82e-04 | 0.4s
+2026-03-27 19:38:24 [INFO] [折1] Epoch [ 21/120] 训练: loss=0.6003 | 验证: loss=1.1474 balanced_macro_F1=86.77% | dog_img:宏F1=82.4% | cat_img:宏F1=75.6% | dog_audio:宏F1=99.2% | cat_audio:宏F1=89.9% | lr=4.80e-04 | 0.5s
+2026-03-27 19:38:24 [INFO] [折1] Epoch [ 22/120] 训练: loss=0.6471 | 验证: loss=1.0031 balanced_macro_F1=87.24% | dog_img:宏F1=86.8% | cat_img:宏F1=75.2% | dog_audio:宏F1=97.5% | cat_audio:宏F1=89.5% | lr=4.77e-04 | 0.4s
+2026-03-27 19:38:25 [INFO] [折1] Epoch [ 23/120] 训练: loss=0.5753 | 验证: loss=1.1250 balanced_macro_F1=85.76% | dog_img:宏F1=83.7% | cat_img:宏F1=71.2% | dog_audio:宏F1=98.3% | cat_audio:宏F1=89.8% | lr=4.74e-04 | 0.5s
+2026-03-27 19:38:25 [INFO] [折1] Epoch [ 24/120] 训练: loss=0.5863 | 验证: loss=1.0773 balanced_macro_F1=87.49% | dog_img:宏F1=88.3% | cat_img:宏F1=73.7% | dog_audio:宏F1=97.5% | cat_audio:宏F1=90.5% | lr=4.71e-04 | 0.5s
+2026-03-27 19:38:26 [INFO] [折1] Epoch [ 25/120] 训练: loss=0.6008 | 验证: loss=1.1288 balanced_macro_F1=86.11% | dog_img:宏F1=88.7% | cat_img:宏F1=70.4% | dog_audio:宏F1=95.8% | cat_audio:宏F1=89.5% | lr=4.67e-04 | 0.4s
+2026-03-27 19:38:26 [INFO] [折1] Epoch [ 26/120] 训练: loss=0.5863 | 验证: loss=1.0489 balanced_macro_F1=87.49% | dog_img:宏F1=88.8% | cat_img:宏F1=73.6% | dog_audio:宏F1=97.5% | cat_audio:宏F1=90.1% | lr=4.64e-04 | 0.5s
+2026-03-27 19:38:27 [INFO] [折1] Epoch [ 27/120] 训练: loss=0.5411 | 验证: loss=1.2285 balanced_macro_F1=85.97% | dog_img:宏F1=88.6% | cat_img:宏F1=67.9% | dog_audio:宏F1=99.2% | cat_audio:宏F1=88.3% | lr=4.60e-04 | 0.4s
+2026-03-27 19:38:27 [INFO] [折1] Epoch [ 28/120] 训练: loss=0.4449 | 验证: loss=1.2103 balanced_macro_F1=85.63% | dog_img:宏F1=86.8% | cat_img:宏F1=69.3% | dog_audio:宏F1=97.5% | cat_audio:宏F1=88.8% | lr=4.57e-04 | 0.5s
+2026-03-27 19:38:28 [INFO] [折1] Epoch [ 29/120] 训练: loss=0.5642 | 验证: loss=1.2137 balanced_macro_F1=83.91% | dog_img:宏F1=81.9% | cat_img:宏F1=65.1% | dog_audio:宏F1=98.3% | cat_audio:宏F1=90.2% | lr=4.53e-04 | 0.5s
+2026-03-27 19:38:28 [INFO] [折1] Epoch [ 30/120] 训练: loss=0.5608 | 验证: loss=1.0241 balanced_macro_F1=87.06% | dog_img:宏F1=88.5% | cat_img:宏F1=71.8% | dog_audio:宏F1=99.2% | cat_audio:宏F1=88.7% | lr=4.49e-04 | 0.5s
+2026-03-27 19:38:29 [INFO] [折1] Epoch [ 31/120] 训练: loss=0.4909 | 验证: loss=1.0061 balanced_macro_F1=87.95% | dog_img:宏F1=88.8% | cat_img:宏F1=75.2% | dog_audio:宏F1=96.7% | cat_audio:宏F1=91.2% | lr=4.44e-04 | 0.5s
+2026-03-27 19:38:29 [INFO] [折1] Epoch [ 32/120] 训练: loss=0.5737 | 验证: loss=0.9676 balanced_macro_F1=86.82% | dog_img:宏F1=88.8% | cat_img:宏F1=71.9% | dog_audio:宏F1=96.7% | cat_audio:宏F1=90.0% | lr=4.40e-04 | 0.5s
+2026-03-27 19:38:30 [INFO] [折1] Epoch [ 33/120] 训练: loss=0.4833 | 验证: loss=1.0301 balanced_macro_F1=86.38% | dog_img:宏F1=87.1% | cat_img:宏F1=73.2% | dog_audio:宏F1=97.5% | cat_audio:宏F1=87.7% | lr=4.36e-04 | 0.5s
+2026-03-27 19:38:30 [INFO] [折1] Epoch [ 34/120] 训练: loss=0.5719 | 验证: loss=1.1064 balanced_macro_F1=86.02% | dog_img:宏F1=86.7% | cat_img:宏F1=70.3% | dog_audio:宏F1=96.7% | cat_audio:宏F1=90.4% | lr=4.31e-04 | 0.5s
+2026-03-27 19:38:31 [INFO] [折1] Epoch [ 35/120] 训练: loss=0.4748 | 验证: loss=1.1312 balanced_macro_F1=87.78% | dog_img:宏F1=87.6% | cat_img:宏F1=74.0% | dog_audio:宏F1=98.3% | cat_audio:宏F1=91.2% | lr=4.26e-04 | 0.5s
+2026-03-27 19:38:31 [INFO] [折1] Epoch [ 36/120] 训练: loss=0.4482 | 验证: loss=1.0008 balanced_macro_F1=86.56% | dog_img:宏F1=87.7% | cat_img:宏F1=70.3% | dog_audio:宏F1=98.3% | cat_audio:宏F1=89.9% | lr=4.21e-04 | 0.4s
+2026-03-27 19:38:31 [INFO] 
+早停触发：验证 balanced_macro_F1 连续 20 轮未改善，停止训练。
+2026-03-27 19:38:31 [INFO] 
+[折1] 训练完成：共 36 轮，最优 balanced_macro_F1=88.08%，用时 0.3 分钟
+2026-03-27 19:38:31 [INFO] 
+[4/5] 绘制训练曲线...
+2026-03-27 19:38:32 [INFO] 训练曲线已保存：D:\bcode\photo emotion\figure\train_curve_20260327193812.png
+2026-03-27 19:38:32 [INFO] 
+[5/5] 集成评估（1 折 × TTA 10 步）...
+2026-03-27 19:38:32 [INFO]   折 1/1 TTA 推理完成
+2026-03-27 19:38:32 [INFO] 
+══════════════════════════════════════════════════
+任务: dog_img  (Accuracy=87.06%)
+──────────────────────────────────────────────────
+            类别  Precision     Recall         F1     支持数
+         angry     90.00%     91.84%     90.91%      98
+         happy     89.25%     83.00%     86.01%     100
+       relaxed     79.28%     88.89%     83.81%      99
+           sad     91.11%     84.54%     87.70%      97
+──────────────────────────────────────────────────
+     Macro Avg     87.41%     87.07%     87.11%
+   Weighted F1                           87.09%
+
+══════════════════════════════════════════════════
+任务: cat_img  (Accuracy=85.07%)
+──────────────────────────────────────────────────
+            类别  Precision     Recall         F1     支持数
+         Angry    100.00%     80.00%     88.89%      10
+     Disgusted     77.78%     87.50%     82.35%       8
+         Happy    100.00%     90.00%     94.74%      10
+        Normal     88.89%     80.00%     84.21%      10
+           Sad     64.29%    100.00%     78.26%       9
+        Scared     87.50%     70.00%     77.78%      10
+     Surprised     90.00%     90.00%     90.00%      10
+──────────────────────────────────────────────────
+     Macro Avg     86.92%     85.36%     85.18%
+   Weighted F1                           85.36%
+
+══════════════════════════════════════════════════
+任务: dog_audio  (Accuracy=98.33%)
+──────────────────────────────────────────────────
+            类别  Precision     Recall         F1     支持数
+       barking    100.00%     93.33%     96.55%      30
+      growling     96.77%    100.00%     98.36%      30
+       howling     96.77%    100.00%     98.36%      30
+       whining    100.00%    100.00%    100.00%      30
+──────────────────────────────────────────────────
+     Macro Avg     98.39%     98.33%     98.32%
+   Weighted F1                           98.32%
+
+══════════════════════════════════════════════════
+任务: cat_audio  (Accuracy=85.81%)
+──────────────────────────────────────────────────
+            类别  Precision     Recall         F1     支持数
+         Angry     95.83%     76.67%     85.19%      30
+       Defence     93.55%    100.00%     96.67%      29
+      Fighting     90.00%     90.00%     90.00%      30
+         Happy     67.57%     83.33%     74.63%      30
+   HuntingMind     96.43%     93.10%     94.74%      29
+        Mating     96.15%     83.33%     89.29%      30
+    MotherCall     80.65%     83.33%     81.97%      30
+       Paining     75.00%     72.41%     73.68%      29
+       Resting     87.50%     96.55%     91.80%      29
+       Warning     82.76%     80.00%     81.36%      30
+──────────────────────────────────────────────────
+     Macro Avg     86.54%     85.87%     85.93%
+   Weighted F1                           85.89%
+2026-03-27 19:38:33 [INFO] 已保存混淆矩阵：D:\bcode\photo emotion\figure\confusion_split_image_20260327193812.png
+2026-03-27 19:38:34 [INFO] 已保存混淆矩阵：D:\bcode\photo emotion\figure\confusion_split_audio_20260327193812.png
+2026-03-27 19:38:34 [INFO] 混淆矩阵（按模态拆分）已保存：D:\bcode\photo emotion\figure\confusion_split_image_20260327193812.png ； D:\bcode\photo emotion\figure\confusion_split_audio_20260327193812.png
+2026-03-27 19:38:36 [INFO] 已保存各类别 P/R/F1 柱状图：D:\bcode\photo emotion\figure\interpret_prf_20260327193812.png
+2026-03-27 19:38:38 [INFO] 已保存微平均 ROC 曲线：D:\bcode\photo emotion\figure\interpret_roc_20260327193812.png
+2026-03-27 19:38:39 [INFO] 已保存置信度分布图：D:\bcode\photo emotion\figure\interpret_confidence_20260327193812.png
+2026-03-27 19:38:41 [INFO] 已保存 Top 混淆对条形图：D:\bcode\photo emotion\figure\interpret_top_confusion_20260327193812.png
+2026-03-27 19:38:41 [INFO] 模型已保存（含 1 折权重）：D:\bcode\photo emotion\moxing\MultiBranchMLP_20260327193812.pkl
+2026-03-27 19:38:41 [INFO] 
+============================================================
+2026-03-27 19:38:41 [INFO] 训练日志：D:\bcode\photo emotion\txt\train_log_20260327193812.txt
+2026-03-27 19:38:41 [INFO] 模型文件：D:\bcode\photo emotion\moxing\MultiBranchMLP_20260327193812.pkl
+2026-03-27 19:38:41 [INFO] ============================================================
