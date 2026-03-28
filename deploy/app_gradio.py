@@ -23,6 +23,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+# 将项目自带的 ffmpeg_bin（含 ffmpeg.exe + ffprobe.exe）注入 PATH
+# 确保 Gradio / pydub 音频组件能正确调用 ffprobe
+_ffmpeg_bin_dir = str(ROOT / "ffmpeg_bin")
+if Path(_ffmpeg_bin_dir).is_dir() and _ffmpeg_bin_dir not in os.environ.get("PATH", ""):
+    os.environ["PATH"] = _ffmpeg_bin_dir + os.pathsep + os.environ.get("PATH", "")
+
 import numpy as np
 import gradio as gr
 import matplotlib
@@ -351,7 +357,7 @@ def build_app() -> gr.Blocks:
         gr.Markdown(
             """
 # 🐾 宠物多模态情绪识别系统
-### 基于 DINOv3 视觉模型 + CED-Mini 声学模型的决策级语义映射融合
+### 基于 DINOv3-ConvNeXt-Tiny 视觉模型 + CED-Mini 声学模型的决策级语义映射融合
 
 上传宠物的**图像**和/或**音频**，系统将通过跨模态语义融合分析宠物的情绪状态。
 支持三种模式：**图像+音频**（多模态融合）、**仅图像**、**仅音频**。
@@ -426,7 +432,7 @@ def build_app() -> gr.Blocks:
 ---
 <center>
 
-**技术栈：** DINOv3 ConvNeXt-Tiny (图像) · CED-Mini (音频) · 行为学语义映射融合
+**技术栈：** DINOv3-ConvNeXt-Tiny (图像) · CED-Mini (音频) · 行为学语义映射融合
 
 **融合策略：** 统一状态空间 + 软映射矩阵 + 置信度自适应加权
 
@@ -437,17 +443,17 @@ def build_app() -> gr.Blocks:
     return app
 
 
-def _find_free_port(host: str = "127.0.0.1", start: int = 7860, span: int = 40) -> int:
-    """从 start 起尝试绑定 TCP，返回第一个可用端口（避免「7860 已被占用」直接崩溃）。"""
+def _find_free_port(start: int = 7860, span: int = 100) -> int:
+    """从 start 起尝试绑定 TCP（0.0.0.0），返回第一个可用端口。"""
     for port in range(start, start + span):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             try:
-                s.bind((host, port))
+                s.bind(("0.0.0.0", port))
                 return port
             except OSError:
                 continue
     raise OSError(
-        f"在 {start}～{start + span - 1} 内无空闲端口，请关闭占用进程或增大 GRADIO_SERVER_PORT 后再试。"
+        f"在 {start}～{start + span - 1} 内无空闲端口，请关闭占用进程后再试。"
     )
 
 
@@ -457,13 +463,13 @@ def _find_free_port(host: str = "127.0.0.1", start: int = 7860, span: int = 40) 
 
 if __name__ == "__main__":
     app = build_app()
-    host = "127.0.0.1"
     preferred = int(os.environ.get("GRADIO_SERVER_PORT", "7860"))
-    port = _find_free_port(host=host, start=preferred, span=40)
+    port = _find_free_port(start=preferred, span=100)
     if port != preferred:
-        print(f"[提示] 端口 {preferred} 已被占用，已改用 {port}。浏览器若未自动打开，请访问 http://{host}:{port}")
+        print(f"[提示] 端口 {preferred} 已被占用，顺延至 {port}。")
+    print(f"[启动] 本地访问地址：http://localhost:{port}")
     app.launch(
-        server_name=host,
+        server_name="0.0.0.0",
         server_port=port,
         share=False,
         inbrowser=True,

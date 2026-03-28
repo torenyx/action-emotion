@@ -47,6 +47,15 @@ data/**/*.npy
 data/**/*.npz
 data/**/desktop.ini
 
+# Node / 依赖
+node_modules/
+
+# Cursor 本地配置
+.cursor/
+
+# Word 文档（不上传）
+*.docx
+
 # IDE / OS
 .idea/
 .vscode/

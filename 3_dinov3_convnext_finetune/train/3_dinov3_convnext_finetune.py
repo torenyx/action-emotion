@@ -1198,7 +1198,7 @@ def full_evaluation(task_probs, task_targets, dataset):
 
     report = "\n".join(report_lines)
     logger.info(report)
-    return cm_data
+    return cm_data, task_probs, task_targets
 
 
 # ============================================================
@@ -1235,10 +1235,6 @@ def ensemble_evaluation(fold_states, dataset, test_indices,
             avg_probs[task] = None
 
     return full_evaluation(avg_probs, targets_ref, dataset)
-
-
-# ============================================================
-# 可视化：训练曲线
 # ============================================================
 def _get_zh_font():
     zh_fonts = [f.fname for f in fm.fontManager.ttflist
@@ -1335,6 +1331,85 @@ def plot_training_curves(history: dict, save_path: Path):
     plt.savefig(save_path, dpi=200, bbox_inches="tight", facecolor="white")
     plt.close()
     logger.info(f"训练曲线已保存：{save_path}")
+
+
+def plot_roc_curves(task_probs: dict, task_targets: dict,
+                    class_names_map: dict, save_path: Path):
+    """
+    为每个任务各绘制一条微平均（micro-average）ROC 曲线，图例仅显示微平均 AUC 值。
+    """
+    from sklearn.metrics import roc_curve, auc
+    from sklearn.preprocessing import label_binarize
+
+    fp = _get_zh_font()
+    plt.rcParams["axes.unicode_minus"] = False
+
+    n_tasks = sum(1 for t in TASK_HEADS if task_probs.get(t) is not None)
+    if n_tasks == 0:
+        return
+
+    _roc_title_fs = 26
+    _roc_axis_fs  = 22
+    _roc_legend_fs = 20
+    _roc_tick_fs  = 20
+    title_fp  = fp.copy(); title_fp.set_size(_roc_title_fs)
+    axis_fp   = fp.copy(); axis_fp.set_size(_roc_axis_fs)
+    leg_fp    = fp.copy(); leg_fp.set_size(_roc_legend_fs)
+
+    task_zh    = {"dog_img": "狗图像情绪", "cat_img": "猫图像情绪"}
+    task_color = {"dog_img": "#2E86AB",    "cat_img": "#E84855"}
+
+    fig, axes = plt.subplots(1, n_tasks, figsize=(10 * n_tasks, 9))
+    fig.patch.set_facecolor("white")
+    if n_tasks == 1:
+        axes = [axes]
+
+    ax_idx = 0
+    for task in TASK_HEADS:
+        if task_probs.get(task) is None:
+            continue
+        ax = axes[ax_idx]; ax_idx += 1
+        ax.set_facecolor("white")
+        ax.grid(False)
+        for sp in ax.spines.values():
+            sp.set_linewidth(1.2)
+
+        probs   = task_probs[task]   # (N, n_cls)
+        targets = task_targets[task] # (N,)
+        n_cls   = len(class_names_map[task])
+
+        targets_bin = label_binarize(targets, classes=list(range(n_cls)))
+        if n_cls == 2:
+            targets_bin = np.hstack([1 - targets_bin, targets_bin])
+
+        # 微平均：将所有类别的预测拼成一个长向量后计算 ROC
+        fpr_micro, tpr_micro, _ = roc_curve(
+            targets_bin.ravel(), probs.ravel()
+        )
+        auc_micro = auc(fpr_micro, tpr_micro)
+
+        ax.plot(fpr_micro, tpr_micro,
+                color=task_color.get(task, "#333333"),
+                linewidth=2.8,
+                label=f"微平均 AUC = {auc_micro:.3f}")
+
+        # 对角参考线
+        ax.plot([0, 1], [0, 1], color="#AAAAAA", linewidth=1.5,
+                linestyle=":", zorder=0)
+
+        ax.set_xlim(-0.01, 1.01)
+        ax.set_ylim(-0.01, 1.05)
+        ax.set_xlabel("假阳性率 (FPR)", fontproperties=axis_fp)
+        ax.set_ylabel("真阳性率 (TPR)", fontproperties=axis_fp)
+        ax.set_title(task_zh.get(task, task) + " ROC 曲线",
+                     fontproperties=title_fp, pad=18)
+        ax.tick_params(labelsize=_roc_tick_fs)
+        ax.legend(prop=leg_fp, loc="lower right", framealpha=0.92)
+
+    plt.tight_layout(pad=3.0)
+    plt.savefig(save_path, dpi=200, bbox_inches="tight", facecolor="white")
+    plt.close()
+    logger.info(f"ROC 曲线已保存：{save_path}")
 
 
 def plot_confusion_matrices(cm_data: dict, save_path: Path):
@@ -1888,12 +1963,21 @@ def main():
     # ── 6. TTA 评估 ────────────────────────────────────────
     n_tta = len(tta_transforms)
     logger.info(f"\n[6/8] TTA 评估（{N_FOLDS} 折 × {n_tta} TTA 视角）...")
-    cm_data = ensemble_evaluation(
+    cm_data, eval_probs, eval_targets = ensemble_evaluation(
         fold_states, dataset, test_idx, tta_transforms, device,
     )
     if cm_data:
         cm_path = FIG_DIR / f"dinov3_confusion_matrix_{TS}.png"
         plot_confusion_matrices(cm_data, cm_path)
+
+    # ROC 曲线
+    logger.info("  绘制 ROC 曲线...")
+    try:
+        roc_path = FIG_DIR / f"dinov3_roc_{TS}.png"
+        class_names_map = {t: dataset.task_class_names[t] for t in TASK_HEADS}
+        plot_roc_curves(eval_probs, eval_targets, class_names_map, roc_path)
+    except Exception as e:
+        logger.warning(f"ROC 曲线绘制失败：{e}")
 
     # ── 保存模型 ─────────────────────────────────────────────
     model_path = MODEL_DIR / f"DINOv3_ConvNeXt_{TS}.pkl"
@@ -1938,6 +2022,7 @@ def main():
     logger.info("\n" + "=" * 60)
     logger.info(f"训练日志：{log_path}")
     logger.info(f"模型文件：{model_path}")
+    logger.info(f"ROC 曲线：{FIG_DIR / f'dinov3_roc_{TS}.png'}")
     logger.info("=" * 60)
 
 
