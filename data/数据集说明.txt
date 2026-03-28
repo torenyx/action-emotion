@@ -1,0 +1,24 @@
+本目录用于存放项目所需的原始数据与中间特征。Git 仓库中仅保留文件夹结构（各子目录下的 .gitkeep），
+图片、音频与 .npy 等大文件需在本地自行准备，不会上传到远程仓库。
+
+一、目录概览（按用途）
+
+1. CatSound_DataSet_V2
+   猫叫声数据集（按情绪类别分子文件夹，如 Angry / Happy / Resting 等），内容为 .wav 等音频文件。
+
+2. cat_671_cropped / cat_671_cropped_no_detection / cat_671_merged
+   猫脸情绪图像相关数据：经检测裁剪、无检测裁剪或合并策略后的图片，按情绪类别分子目录（如 Angry、Happy 等）。
+
+3. dog_emotion_cropped / dog_emotion_cropped_no_detection
+   狗情绪图像：裁剪版本及无检测裁剪版本，按情绪类别分子目录。
+
+4. Pet dog sound event
+   狗声音事件类数据，按事件类型分子目录（如 barking、growling、howling、whining 等）。
+
+5. features_npy / features_languagebind_npy
+   由脚本提取的特征矩阵与标签等（.npy），体积较大，仅本地使用；仓库内不提交这些文件。
+
+二、使用说明
+
+clone 本仓库后，将上述各子目录按相同名称放置到本 data 目录下，再运行训练或特征提取脚本。
+数据版权与下载来源以各数据集官方/原始发布方为准，请勿将受版权限制的原始文件重新公开分发。
