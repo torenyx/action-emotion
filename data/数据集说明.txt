@@ -18,7 +18,20 @@
 5. features_npy / features_languagebind_npy
    由脚本提取的特征矩阵与标签等（.npy），体积较大，仅本地使用；仓库内不提交这些文件。
 
-二、使用说明
+二、原始数据量（本地当前统计，仅供参考）
+
+以下为在本机 data 目录下按扩展名统计的大致数量（jpg / jpeg / png / webp / gif / bmp），若你增删过文件，数字会随之变化。
+
+图片合计：约 5374 张
+  · cat_671_cropped：约 667 张
+  · cat_671_cropped_no_detection：约 11 张
+  · cat_671_merged：约 671 张
+  · dog_emotion_cropped：约 3938 张
+  · dog_emotion_cropped_no_detection：约 87 张
+
+（顺带）音频条数：CatSound_DataSet_V2 下 .wav 约 2961 条；Pet dog sound event 下 .wav 约 1200 条。
+
+三、使用说明
 
 clone 本仓库后，将上述各子目录按相同名称放置到本 data 目录下，再运行训练或特征提取脚本。
 数据版权与下载来源以各数据集官方/原始发布方为准，请勿将受版权限制的原始文件重新公开分发。
