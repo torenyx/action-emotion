@@ -1,41 +1,55 @@
-# 生成的报告与中间产物（整目录不入库）
+# 用户要求：不上传
 output/
+scripts/
+
+# 本地训练权重目录（仅保留空占位）
+model/*
+!model/.gitkeep
+*.pkl
+
+# 下载的大模型权重与缓存
+**/.cache/
+*.safetensors
+*.onnx
+*.pt
+*.pth
+*.bin
+*.ckpt
+*.h5
+*.pb
+**/.mdl
+**/.msc
+**/.mv
 
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
-.Python
+*~
+.pytest_cache/
+*.egg-info/
 .venv/
 venv/
 .env
-.env.*
 
-# 模型权重与常见推理导出
-*.pt
-*.pth
-*.ckpt
-*.safetensors
-*.onnx
-*.h5
-*.pb
-*.tflite
-*.mlmodel
-*.joblib
-*.pkl
-**/pytorch_model.bin
-**/model*.bin
+# 数据目录：仅保留文件夹结构（.gitkeep），不含媒体与特征文件
+data/**/*.wav
+data/**/*.mp3
+data/**/*.flac
+data/**/*.m4a
+data/**/*.opus
+data/**/*.jpg
+data/**/*.jpeg
+data/**/*.png
+data/**/*.webp
+data/**/*.gif
+data/**/*.bmp
+data/**/*.npy
+data/**/*.npz
+data/**/desktop.ini
 
-# 训练导出的整包目录（若仅有权重可整目录忽略）
-model/
-
-# Hugging Face 本地缓存
-**/.cache/huggingface/
-
-# 预训练权重目录（如需保留配置可再单独 ! 放行小文件）
-cedmini and DINOv3/dinov3-convnext-tiny-pretrain-lvd1689m/
-
-# 数据集：只跟踪 data 下各层目录与 .gitkeep，不跟踪真实媒体与标注等文件
-data/**/*
-!data/**/
-!data/**/.gitkeep
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
